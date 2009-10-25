@@ -31,7 +31,7 @@ FreeTypeGX *fontSystem;
 int
 main(int argc, char *argv[])
 {
-	InitGecko();//uncomment to get gecko output
+//	InitGecko();//uncomment to get gecko output
 	gprintf("\nGecko init");
 	PAD_Init();
 	Wpad_Init();

@@ -12,6 +12,7 @@
 #include <ogcsys.h>
 
 #define THREAD_SLEEP    100
+#define infotextcolor		(GXColor){255, 255, 255, 255}
 //#define KBSIZE          1024.0
 //#define MBSIZE          1048576.0
 //#define GBSIZE          1073741824.0

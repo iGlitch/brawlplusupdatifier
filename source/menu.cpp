@@ -31,10 +31,10 @@
 #include "gecko.h"
 
 #define textcolor		(GXColor){77, 51, 25, 255}
-#define infotextcolor		(GXColor){255, 255, 255, 255}
+
 //#define infotextcolor		(GXColor){255,255,0, 255}
-#define CONSOLELEFT		200
-#define NUMLINES		20
+#define CONSOLELEFT		20
+#define NUMLINES		12
 #define VERSIONTEXT		"Brawl+ Updatifier 1.1 by giantpune"
 
 extern bool networkinitialized;
@@ -60,6 +60,7 @@ static GuiText ** infoTxt = NULL;
 static GuiSound * bgMusic = NULL;
 static GuiImageData * pointer[4];
 static GuiImage * bgImg = NULL;
+static GuiImage * bgConsoleImg = NULL;
 
 
 static char linebuf[NUMLINES][200];
@@ -238,7 +239,8 @@ void clearConsole()
 
 void ex(const char *l)
 {
-	mainWindow->SetBlackbox(false,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
+	//mainWindow->SetBlackbox(false,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
+	mainWindow->Remove(bgConsoleImg);
 	WindowPrompt("Error!",l,"OK");
 	ExitApp();
 	gprintf("\nExiting... %s",l);
@@ -436,7 +438,9 @@ bool checkfilehash(const char * p, const char * h, bool recheck = false)
 				w->Remove(infoTxt[i]);	
 			}
 			bgImg->SetAlpha(100);
-			mainWindow->SetBlackbox(false,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
+			bgConsoleImg->SetAlpha(0);
+			//mainWindow->Remove(bgConsoleImg);
+			//mainWindow->SetBlackbox(false,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
 			
 			ResumeGui();
 			//1,2,0
@@ -468,7 +472,9 @@ bool checkfilehash(const char * p, const char * h, bool recheck = false)
 				w->Append(infoTxt[i]);	
 			}
 			bgImg->SetAlpha(255);
-			mainWindow->SetBlackbox(true,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
+			mainWindow->Append(bgConsoleImg);
+			bgConsoleImg->SetAlpha(170);
+			//mainWindow->SetBlackbox(true,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
 			ResumeGui();
 		}
 	}
@@ -663,8 +669,8 @@ static int MenuUpdate()
 	GuiImage updateBtnImg(&btnOutline);
 	GuiImage updateOverBtnImg(&btnOutlineover);
 	GuiButton updateBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	updateBtn.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
-	updateBtn.SetPosition(buttonX, buttonY);
+	updateBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);
+	updateBtn.SetPosition(0,308);//(buttonX, buttonY);
 	updateBtn.SetLabel(&updateBtnTxt);
 	updateBtn.SetImage(&updateBtnImg);
 	updateBtn.SetImageOver(&updateOverBtnImg);
@@ -673,14 +679,14 @@ static int MenuUpdate()
 	updateBtn.SetEffectGrow();
 	updateBtn.SetSoundClick(&btnClick);
 	updateBtn.SetSoundOver(&btnSoundOver);
-	buttonY += btnOutline.GetHeight()+buttonSpacing;
+	//buttonY += btnOutline.GetHeight()+buttonSpacing;
 
 	GuiText playBtnTxt("Play", 24, textcolor);
 	GuiImage playBtnImg(&btnOutline);
 	GuiImage playBtnOverImg(&btnOutlineover);
 	GuiButton playBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
-	playBtn.SetAlignment(ALIGN_LEFT, ALIGN_TOP);
-	playBtn.SetPosition(buttonX, buttonY);
+	playBtn.SetAlignment(ALIGN_CENTRE, ALIGN_TOP);//(ALIGN_LEFT, ALIGN_TOP);
+	playBtn.SetPosition(0,353);//(buttonX, buttonY);
 	playBtn.SetLabel(&playBtnTxt);
 	playBtn.SetImage(&playBtnImg);
 	playBtn.SetImageOver(&playBtnOverImg);
@@ -689,7 +695,7 @@ static int MenuUpdate()
 	playBtn.SetEffectGrow();
 	playBtn.SetSoundClick(&btnClick);
 	playBtn.SetSoundOver(&btnSoundOver);
-	buttonY += btnOutline.GetHeight()+buttonSpacing;
+	//buttonY += btnOutline.GetHeight()+buttonSpacing;
 
 	GuiImageData progress1data(progressbar_outline_dark_png);
 	GuiImageData progress2data(progressbar_outline_png);
@@ -728,9 +734,14 @@ static int MenuUpdate()
 	customOptionList *report = NULL;
 	GuiCustomOptionBrowser *optionBrowser = NULL;
 	
+	GuiImageData bgConsoleData(bg_options_settings_png);
+    bgConsoleImg = new GuiImage(&bgConsoleData);
+	bgConsoleImg->SetPosition(20, 20);
+	bgConsoleImg->SetAlpha(0);
+	
 	infoTxt = new GuiText * [NUMLINES];
 	
-	int infoX = CONSOLELEFT+20, infoY = 20, infoSpace = 2, infoSize = 20;
+	int infoX = CONSOLELEFT+20, infoY = 32, infoSpace = 2, infoSize = 20;
 	
 	for (int i=0;i<NUMLINES;i++)
 	{
@@ -739,7 +750,7 @@ static int MenuUpdate()
 		infoTxt[i] = new GuiText(linebuf[i],infoSize,infotextcolor);
 		infoTxt[i]->SetAlignment(0,3);
 		infoTxt[i]->SetPosition(infoX,infoY);
-		//infoTxt[i]->SetMaxWidth(screenwidth-infoX-20,GuiText::DOTTED);
+		infoTxt[i]->SetMaxWidth((screenwidth-infoX)-50,GuiText::DOTTED);
 		
 		infoY += infoSize+infoSpace;
 	}
@@ -768,12 +779,13 @@ static int MenuUpdate()
 	w->Append(&RBtn);
 	w->Append(&LBtn);*/
 	w->Append(ExitBtn);
-	w->Append(&progress1emptyImg);
-	w->Append(&progress2emptyImg);
-	w->Append(progress1fullImg);
-	w->Append(&progress2fullImg);
-	w->Append(&progress1Img);
-	w->Append(&progress2Img);
+	//w->Append(&progress1emptyImg);
+	//w->Append(&progress2emptyImg);
+	//w->Append(progress1fullImg);
+	//w->Append(&progress2fullImg);
+	//w->Append(&progress1Img);
+	//w->Append(&progress2Img);
+	mainWindow->Append(bgConsoleImg);
 	mainWindow->Append(w);
 	ResumeGui();
 //	bool changed = true;
@@ -871,6 +883,7 @@ static int MenuUpdate()
 		}*/
 		else if (updateBtn.GetState() == STATE_CLICKED)
 		{
+			HaltGui();
 			updateBtn.ResetState();
 			//btn=!btn;
 			//changed=true;
@@ -880,11 +893,21 @@ static int MenuUpdate()
 			{
 				w->Append(infoTxt[i]);	
 			}
-			mainWindow->SetBlackbox(true,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
-	
+			//mainWindow->SetBlackbox(true,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
+			//mainWindow->Append(bgConsoleImg);
+			bgConsoleImg->SetAlpha(170);
+			w->Remove(&updateBtn);
+			w->Append(&progress1emptyImg);
+			w->Append(&progress2emptyImg);
+			w->Append(progress1fullImg);
+			w->Append(&progress2fullImg);
+			w->Append(&progress1Img);
+			w->Append(&progress2Img);
+			ResumeGui();
 		
 		
-		}else if (playBtn.GetState() == STATE_CLICKED)
+		}
+		else if (playBtn.GetState() == STATE_CLICKED)
 		{
 			play = true;
 			menu = MENU_EXIT;
@@ -928,7 +951,7 @@ static int MenuUpdate()
 		}
 		else if (pro==1)
 		{
-/*		
+		
 			gprintf("\n\tDownloading \"http://brawlplus.net/dl.php\"");
 			updateList("Downloading http://brawlplus.net/dl.php",true);
 			if (brawlDL("http://brawlplus.net/dl.php", "sd:/brawl+list.txt")){
@@ -936,7 +959,7 @@ static int MenuUpdate()
 				updateList("saved as sd:/brawl+list.txt",true);
 			}
 			else ex("Could not download the file");
-*/			
+			
 			pro++;
 			
 		}
@@ -955,9 +978,9 @@ static int MenuUpdate()
 			if (numFiles>0)
 				{
 					report = new customOptionList(numFiles-1);
-					optionBrowser = new GuiCustomOptionBrowser(396, 280, report,  bg_options_settings_png, 1, 385,0);
-					optionBrowser->SetPosition(-45, 0);
-					optionBrowser->SetAlignment(ALIGN_RIGHT, ALIGN_MIDDLE);
+					optionBrowser = new GuiCustomOptionBrowser(592, 280, report,  bg_options_settings_png, 1, 385,0);
+					optionBrowser->SetPosition(20, 20);
+					optionBrowser->SetAlignment(ALIGN_LEFT, ALIGN_TOP);
 			
 					
 				}
@@ -1089,8 +1112,12 @@ static int MenuUpdate()
 			{
 				w->Remove(infoTxt[i]);	
 			}
-			mainWindow->SetBlackbox(false,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
-			
+			mainWindow->Remove(bgConsoleImg);
+			//mainWindow->SetBlackbox(false,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
+			w->Remove(progress1fullImg);
+			w->Remove(&progress2fullImg);
+			w->Remove(&progress1Img);
+			w->Remove(&progress2Img);
 			w->Remove(&progress1emptyImg);
 			w->Remove(&progress2emptyImg);
 			w->Remove(&updateBtn);
@@ -1099,6 +1126,7 @@ static int MenuUpdate()
 			snprintf(t,sizeof(t),"%i of %i files updated.  %i failed hash verification.",fctn,fctn2,hashfails);
 			WindowPrompt(0,t,"OK");
 			HaltGui();
+			playBtn.SetPosition(0,308);
 			w->Append(&playBtn);
 			w->Append(optionBrowser);
 			ResumeGui();
