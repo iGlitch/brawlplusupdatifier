@@ -9,6 +9,7 @@
 #include "gui.h"
 #include "../wpad.h"
 #include "../main.h"
+#include "../menu.h"
 #include "../gecko.h"
 #include "gui_customoptionbrowser.h"
 
@@ -91,7 +92,7 @@ GuiCustomOptionBrowser::GuiCustomOptionBrowser(int w, int h, customOptionList * 
 	listOffset = this->FindMenuItem((start>l->GetLength()-PAGESIZE?l->GetLength()-PAGESIZE:start)-1, 1);
 	selectedItem = start;
 	focus = 1; // allow focus
-	coL2 = 400;
+	coL2 = 350;
 //	char imgPath[100];
 
 	trigA = new GuiTrigger;
@@ -176,19 +177,19 @@ GuiCustomOptionBrowser::GuiCustomOptionBrowser(int w, int h, customOptionList * 
 
 	for(int i=0; i < size; i++)
 	{
-		optionTxt[i] = new GuiText(options->GetName(i), 20, (GXColor){0,0,0, 0xff});
+		optionTxt[i] = new GuiText(options->GetName(i), 20, infotextcolor);
 		optionTxt[i]->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
 		optionTxt[i]->SetPosition(24,0);
 		optionTxt[i]->SetMaxWidth(bgOptionsImg->GetWidth() - (coL2+24), GuiText::DOTTED);
 
 		optionBg[i] = new GuiImage(bgOptionsEntry);
 
-		optionVal[i] = new GuiText(NULL, 20, (GXColor){0,0,0, 0xff});
+		optionVal[i] = new GuiText(NULL, 20, infotextcolor);
 		
 		optionVal[i]->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
 		optionVal[i]->SetPosition(coL2,0);
 
-		optionValOver[i] = new GuiText(NULL, 20, (GXColor){0,0,0, 0xff});
+		optionValOver[i] = new GuiText(NULL, 20, infotextcolor);
 		optionValOver[i]->SetAlignment(ALIGN_LEFT, ALIGN_MIDDLE);
 		optionValOver[i]->SetPosition(coL2,0);
 
@@ -197,7 +198,7 @@ GuiCustomOptionBrowser::GuiCustomOptionBrowser(int w, int h, customOptionList * 
 		optionBtn[i]->SetLabel(optionTxt[i], 0);
 		optionBtn[i]->SetLabel(optionVal[i], 1);
 		optionBtn[i]->SetLabelOver(optionValOver[i], 1);
-		//optionBtn[i]->SetImageOver(optionBg[i]);
+		optionBtn[i]->SetImageOver(optionBg[i]);
 		optionBtn[i]->SetPosition(10,GAMESELECTSIZE*i+4);
 		optionBtn[i]->SetRumble(false);
 		optionBtn[i]->SetTrigger(trigA);
