@@ -1169,8 +1169,14 @@ void MainMenu(int menu)
 
 	mainWindow = new GuiWindow(screenwidth, screenheight);
 	
+	char iost[20];
+	sprintf(iost,"Using IOS %u (Rev %u)",IOS_GetVersion(),IOS_GetRevision());
+	GuiText iostxt(iost,16,(GXColor){255, 255, 0, 255});
+	iostxt.SetPosition(20,-20);
+	iostxt.SetAlignment(0,4);
+	
 	GuiText versiontxt(VERSIONTEXT,16,(GXColor){255, 255, 0, 255});
-	versiontxt.SetPosition(20,-20);
+	versiontxt.SetPosition(20,-40);
 	versiontxt.SetAlignment(0,4);
 	
 	GuiImageData bgData(background_png);
@@ -1192,6 +1198,7 @@ void MainMenu(int menu)
 	}
 	
 	mainWindow->Append(bgImg);
+	mainWindow->Append(&iostxt);
 	mainWindow->Append(&versiontxt);
 		
 	GuiTrigger trigA;

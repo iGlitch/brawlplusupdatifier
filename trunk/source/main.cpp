@@ -32,7 +32,9 @@ int
 main(int argc, char *argv[])
 {
 //	InitGecko();//uncomment to get gecko output
+	if (IOS_GetVersion()!=36)IOS_ReloadIOS(36);
 	gprintf("\nGecko init");
+	gprintf("\nUsing IOS  IOS%u (Rev %u)", IOS_GetVersion(),IOS_GetRevision());
 	PAD_Init();
 	Wpad_Init();
 	Sys_Init();
