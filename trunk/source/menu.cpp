@@ -249,6 +249,7 @@ void ex(const char *l)
 	bgMusic->Stop();
 	delete bgMusic;
 	delete bgImg;
+	delete bgConsoleImg;
 	delete mainWindow;
 	delete pointer[0];
 	delete pointer[1];
@@ -411,9 +412,9 @@ bool checkfilehash(const char * p, const char * h, bool recheck = false)
 		
 		snprintf(t,sizeof(t),"%s",p);
 		updateList(t,true);
-		snprintf(t,sizeof(t),"current hash %s",hash.hexdigest().c_str());
+		snprintf(t,sizeof(t),"current hash    %s",hash.hexdigest().c_str());
 		updateList(t,true);
-		snprintf(t,sizeof(t),"needed hash    %s",h);
+		snprintf(t,sizeof(t),"needed hash  %s",h);
 		updateList(t,true);
 	}
 	
@@ -466,13 +467,13 @@ bool checkfilehash(const char * p, const char * h, bool recheck = false)
 				} 
 			}
 			HaltGui();
+			mainWindow->Append(bgConsoleImg);
 			mainWindow->Append(w);
 			for (int i=0;i<NUMLINES;i++)
 			{
 				w->Append(infoTxt[i]);	
 			}
 			bgImg->SetAlpha(255);
-			mainWindow->Append(bgConsoleImg);
 			bgConsoleImg->SetAlpha(170);
 			//mainWindow->SetBlackbox(true,CONSOLELEFT,0,screenwidth-CONSOLELEFT,500,(GXColor){0,0,0,100});
 			ResumeGui();
@@ -662,8 +663,8 @@ static int MenuUpdate()
   
 	GuiImageData btnOutline(button_png);
 	GuiImageData btnOutlineover(button_over_png);
-	int buttonSpacing = 15;
-	int buttonX = 25, buttonY = 150;
+//	int buttonSpacing = 15;
+//	int buttonX = 25, buttonY = 150;
 	
 	GuiText updateBtnTxt("Update", 24, textcolor);
 	GuiImage updateBtnImg(&btnOutline);
@@ -681,7 +682,7 @@ static int MenuUpdate()
 	updateBtn.SetSoundOver(&btnSoundOver);
 	//buttonY += btnOutline.GetHeight()+buttonSpacing;
 
-	GuiText playBtnTxt("Play", 24, textcolor);
+	GuiText playBtnTxt("Load Gecko OS", 24, textcolor);
 	GuiImage playBtnImg(&btnOutline);
 	GuiImage playBtnOverImg(&btnOutlineover);
 	GuiButton playBtn(btnOutline.GetWidth(), btnOutline.GetHeight());
@@ -1008,7 +1009,7 @@ static int MenuUpdate()
 					gprintf("\n\n<%i>----------------------------------------",fctn2+1);
 					
 					updateList(" ",true);
-					sprintf(t,"<%i>----------------------------------------",fctn2+1);
+					sprintf(t,"<%i>------------------------------------------------------------------------------------------------------------------------",fctn2+1);
 					updateList(t,true);
 					
 					
@@ -1211,7 +1212,7 @@ void MainMenu(int menu)
 		}
 	}
 	
-	bool found=false;
+/*	bool found=false;
 	gprintf("\n\n%s",(play?"try sd:/apps/Gecko192/boot.elf":"exiting"));
 	FILE* dol = fopen("sd:/apps/Gecko192/boot.elf", "r");
 	if (!dol)
@@ -1223,7 +1224,7 @@ void MainMenu(int menu)
 		
 	}
 	else found = true;
-
+*/
 	ResumeGui();
 	ExitGUIThreads();
 	
@@ -1232,6 +1233,7 @@ void MainMenu(int menu)
 	bgMusic->Stop();
 	delete bgMusic;
 	delete bgImg;
+	delete bgConsoleImg;
 	delete mainWindow;
 	delete pointer[0];
 	delete pointer[1];
@@ -1244,9 +1246,9 @@ void MainMenu(int menu)
 	
 	
 	
-	if (found && play) 
+	if (play) 
 	{
-		fclose(dol);
+//		fclose(dol);
 		gprintf("...found");
 		
 		//gprintf("\nbooting .elf");

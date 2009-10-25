@@ -16,35 +16,17 @@
 
 #include "gecko192_elf.h"
 
-int BootHomebrew(char * path) {
+int BootHomebrew(char * path) {//really the only reason to have a path here is for argv
 	
 	
 	void *buffer = NULL;
-    //u32 filesize = 0;
     entrypoint entry;
     u32 cpu_isr;
 
-   /* FILE * file = fopen(path, "rb");
-    if (!file) SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
-
-    fseek (file, 0, SEEK_END);
-    filesize = ftell(file);
-    rewind(file);
-	gprintf("\n\tELF size = %i",filesize);*/
     buffer = malloc(gecko192_elf_size);
 	memcpy(buffer,gecko192_elf,gecko192_elf_size);
 	
-   /* if (fread (buffer, 1, filesize, file) != filesize) {
-        fclose (file);
-        free(buffer);
-        SDCard_deInit();
-        gprintf("\n\tcan't allocate memory for buffer");
-		USBDevice_deInit();
-	    SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
-    }
-    fclose (file);
-	*/
-	gprintf("\n\tSetting args[]");
+    gprintf("\n\tSetting args[]");
     struct __argv args;
     bzero(&args, sizeof(args));
     args.argvMagic = ARGV_MAGIC;
@@ -67,7 +49,7 @@ int BootHomebrew(char * path) {
 
     if (!entry) {
         SDCard_deInit();
-        USBDevice_deInit();
+//        USBDevice_deInit();
 		
 		gprintf("\n\t!entrypoint");
         SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);

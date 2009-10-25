@@ -47,7 +47,7 @@ void ExitApp()
 	ShutdownAudio();
 
 	SDCard_deInit();
-	USBDevice_deInit();
+//	USBDevice_deInit();
 }
 
 
