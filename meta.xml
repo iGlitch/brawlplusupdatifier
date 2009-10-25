@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+	<app version="1">
+		<name>Brawl + Updatifier</name>
+		<coder>giantpune</coder>
+		<version>v1.0</version>
+		<release_date></release_date>
+		<short_description>Updates brawl+ files</short_description>
+		<long_description>Requisites: sd card with enough free space, WiFi (lan adapter will probably cause a crash).
+Update starts the process, Play loads geckoOS 192.
+home/start = exit</long_description>
+	</app>
