@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 	<app version="1">
-		<name>Brawl + Updatifier</name>
+		<name>Brawl+ Updatifier</name>
 		<coder>giantpune</coder>
-		<version>v1.0</version>
-		<release_date></release_date>
-		<short_description>Updates brawl+ files</short_description>
-		<long_description>Requisites: sd card with enough free space, WiFi (lan adapter will probably cause a crash).
-Update starts the process, Play loads geckoOS 192.
-home/start = exit</long_description>
+		<version>1.1 r8</version>
+		<release_date>20091026000000</release_date>
+		<short_description>Update/Install/Play Brawl+</short_description>
+		<long_description>The Brawl+ Updater/Installer for Homebrew allows you to check if you're up to date on the latest Brawl+ NTSC set, and if you aren't, it will attempt to download and write it to your SD card. If you have all of the latest stuff, this application will skip the download process. "Update" starts the process, "Play" loads Gecko OS 1.9.2b. Home/Start = Exit.
+
+An SD card with enough free space (50MB recommended) and WiFi (LAN Adapter will probably cause a crash) are required.
+For HDD loading, IOS222v4 and a WBFS drive with the ISO are required. 
+Official Updatifier site: http://code.google.com/p/brawlplusupdatifier/</long_description>
 	</app>
