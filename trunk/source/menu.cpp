@@ -1170,7 +1170,7 @@ void MainMenu(int menu)
 	mainWindow = new GuiWindow(screenwidth, screenheight);
 	
 	char iost[20];
-	sprintf(iost,"Using IOS %u (Rev %u)",IOS_GetVersion(),IOS_GetRevision());
+	sprintf(iost,"Using IOS %u (v%u)",IOS_GetVersion(),IOS_GetRevision());
 	GuiText iostxt(iost,16,(GXColor){255, 255, 0, 255});
 	iostxt.SetPosition(20,-20);
 	iostxt.SetAlignment(0,4);
@@ -1231,7 +1231,7 @@ void MainMenu(int menu)
 		
 	}
 	else found = true;
-*/
+*/	
 	ResumeGui();
 	ExitGUIThreads();
 	

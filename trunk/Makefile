@@ -17,7 +17,7 @@ include $(DEVKITPPC)/wii_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	boot
 BUILD		:=	build
-SOURCES		:=	source source/libwiigui source/images source/fonts source/sounds source/Prompts
+SOURCES		:=	source source/libwiigui source/images source/fonts source/sounds source/Prompts source/mload
 DATA		:=	data
 INCLUDES	:=	source
 

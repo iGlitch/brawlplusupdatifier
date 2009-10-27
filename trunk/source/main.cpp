@@ -24,6 +24,8 @@
 #include "fatmounter.h"
 #include "sys.h"
 #include "gecko.h"
+#include "mload/mload.h"
+#include "wbfs.h"
 
 FreeTypeGX *fontSystem;
 //Settings Settings;
@@ -32,18 +34,51 @@ int
 main(int argc, char *argv[])
 {
 //	InitGecko();//uncomment to get gecko output
-	if (IOS_GetVersion()!=36)IOS_ReloadIOS(36);
+//	if (IOS_GetVersion()!=36)IOS_ReloadIOS(36);
+//////////
+
+PAD_Init();
+/*USBDevice_Init();
+IOS_ReloadIOS(222);
+SDCard_Init(); 
+        load_ehc_module();
+		SDCard_deInit();
+		
+	int bbb = WBFS_Init1(), bbbb=0;
+	while (bbb<1 && bbbb<10)
+	{
+		IOS_ReloadIOS(222);
+			SDCard_Init(); 
+			load_ehc_module();
+			SDCard_deInit();
+		
+			bbb = WBFS_Init1();
+			sleep(1);
+			
+			gprintf("\n%i  %i",bbb,bbbb);
+			bbbb++;
+	
+	
+	
+	
+	
+	}
+
+*/
+///////////
 	gprintf("\nGecko init");
 	gprintf("\nUsing IOS  IOS%u (Rev %u)", IOS_GetVersion(),IOS_GetRevision());
-	PAD_Init();
+
+
+
+
+//	PAD_Init();
 	Wpad_Init();
 	Sys_Init();
 	InitVideo(); // Initialise video
 	InitAudio(); // Initialize audio
 	SDCard_Init(); // Initialize file system
-//	USBDevice_Init(); // Initialize file system
-
-//	Settings.Load();
+	USBDevice_Init(); // Initialize file system
 
 	// read wiimote accelerometer and IR data
 	WPAD_SetDataFormat(WPAD_CHAN_ALL,WPAD_FMT_BTNS_ACC_IR);
