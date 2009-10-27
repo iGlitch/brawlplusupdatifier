@@ -61,8 +61,8 @@ int BootHomebrew(char * path) {//really the only reason to have a path here is f
     WPAD_Disconnect(0);
     WPAD_Shutdown();
 	gprintf("\n\tBoot the ELF");
-	Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0, 0, 0, 255},1);
-	Menu_Render();
+//	Menu_DrawRectangle(0,0,screenwidth,screenheight,(GXColor){0, 0, 0, 255},1);
+//	Menu_Render();
     SYS_ResetSystem(SYS_SHUTDOWN, 0, 0);
     _CPU_ISR_Disable (cpu_isr);
     __exception_closeall();
