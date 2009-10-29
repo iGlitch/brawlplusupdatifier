@@ -24,8 +24,6 @@
 #include "fatmounter.h"
 #include "sys.h"
 #include "gecko.h"
-#include "mload/mload.h"
-#include "wbfs.h"
 
 FreeTypeGX *fontSystem;
 //Settings Settings;
@@ -37,42 +35,9 @@ main(int argc, char *argv[])
 //	if (IOS_GetVersion()!=36)IOS_ReloadIOS(36);
 //////////
 
-PAD_Init();
-/*USBDevice_Init();
-IOS_ReloadIOS(222);
-SDCard_Init(); 
-        load_ehc_module();
-		SDCard_deInit();
-		
-	int bbb = WBFS_Init1(), bbbb=0;
-	while (bbb<1 && bbbb<10)
-	{
-		IOS_ReloadIOS(222);
-			SDCard_Init(); 
-			load_ehc_module();
-			SDCard_deInit();
-		
-			bbb = WBFS_Init1();
-			sleep(1);
-			
-			gprintf("\n%i  %i",bbb,bbbb);
-			bbbb++;
-	
-	
-	
-	
-	
-	}
-
-*/
-///////////
 	gprintf("\nGecko init");
 	gprintf("\nUsing IOS  IOS%u (Rev %u)", IOS_GetVersion(),IOS_GetRevision());
-
-
-
-
-//	PAD_Init();
+	PAD_Init();
 	Wpad_Init();
 	Sys_Init();
 	InitVideo(); // Initialise video
