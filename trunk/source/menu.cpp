@@ -1277,6 +1277,7 @@ void MainMenu(int menu)
 	
 	
 	SDCard_deInit();
+	usleep(500000);
 	if (play) 
 	{
 		char loc[30];
