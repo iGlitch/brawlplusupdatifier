@@ -35,7 +35,7 @@
 //#define infotextcolor		(GXColor){255,255,0, 255}
 #define CONSOLELEFT		20
 #define NUMLINES		12
-#define VERSIONTEXT		"Brawl+ Updatifier 1.1 by giantpune"
+#define VERSIONTEXT		"Brawl+ Updatifier 1.2 BETA by giantpune"
 
 extern bool networkinitialized;
 extern char output[];
@@ -181,6 +181,22 @@ void ExitGUIThreads()
 	guithread = LWP_THREAD_NULL;
 }
 
+int checkGC()//simple check to see if there are an GC controllers connected
+{
+	int gcc=0;
+	PADStatus padstatus[PAD_CHANMAX];
+	PAD_Read(padstatus);
+	for(int i=0;i<4;i++)
+	{
+		if(padstatus[i].err==PAD_ERR_NONE)
+		{
+//			gprintf("\npad %i err none",i);
+			gcc=1;
+			break;
+		}
+	}
+	return gcc;
+}
 static bool pageFilled =false;
 void updateList(const char *in, bool skip)
 {
@@ -643,7 +659,7 @@ gprintf("\ncfg_save(%d, %d)",mm,uussbb);
 
 static int MenuUpdate()
 {
-	
+	WindowPrompt("test","test","1","2","3","4");
 //	bool btn=false;
 	int pro=100, i=30, hashfails=0;
 	
@@ -654,7 +670,7 @@ static int MenuUpdate()
 	GuiTrigger trigBO1;
 	trigBO1.SetButtonOnlyTrigger(-1, WPAD_BUTTON_1 | WPAD_CLASSIC_BUTTON_Y, PAD_BUTTON_Y);
 	GuiTrigger trigBO2;
-	trigBO2.SetButtonOnlyTrigger(-1, WPAD_BUTTON_2 | WPAD_CLASSIC_BUTTON_X, PAD_BUTTON_X);
+	trigBO2.SetButtonOnlyTrigger(-1, WPAD_BUTTON_2 | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
 	
 	GuiTrigger trigH;
 	trigH.SetButtonOnlyTrigger(-1, WPAD_BUTTON_HOME | WPAD_CLASSIC_BUTTON_HOME, PAD_BUTTON_START);
@@ -724,6 +740,24 @@ static int MenuUpdate()
 	playBtn.SetSoundClick(&btnClick);
 	playBtn.SetSoundOver(&btnSoundOver);
 	//buttonY += btnOutline.GetHeight()+buttonSpacing;
+	
+	GuiImageData gcYData(gcY_png);
+	GuiImage gcYImg(&gcYData);
+	gcYImg.SetAlignment(0,5);
+	gcYImg.SetPosition(5,0);
+	updateBtn.SetIcon(&gcYImg);
+	
+	GuiImageData gcAData(gcA_png);
+	GuiImage gcAImg(&gcAData);
+	gcAImg.SetAlignment(0,5);
+	gcAImg.SetPosition(5,0);
+	
+	if (checkGC()>0)
+	{
+		updateBtn.SetIcon(&gcYImg);
+		playBtn.SetIcon(&gcAImg);
+	}
+	
 
 	GuiImageData progress1data(progressbar_outline_dark_png);
 	GuiImageData progress2data(progressbar_outline_png);

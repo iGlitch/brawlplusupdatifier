@@ -3,6 +3,7 @@
 #include "Prompts/PromptWindows.h"
 #include "sys.h"
 #include "gecko.h"
+#include "menu.h"
 
 /*** Extern variables ***/
 extern GuiWindow * mainWindow;
@@ -32,6 +33,7 @@ const char *btn4Label)
 {
 	gprintf("\nWindowPrompt(%s, %s, %s, %s, %s,%s)",title,msg,btn1Label,btn2Label, btn3Label,btn4Label);
     int choice = -1;
+	int gcPresent = checkGC();
 
     GuiWindow promptWindow(472,320);
     promptWindow.SetAlignment(ALIGN_CENTRE, ALIGN_MIDDLE);
@@ -78,7 +80,7 @@ const char *btn4Label)
     btn1.SetSoundOver(&btnSoundOver);
     btn1.SetSoundClick(&btnClick);
     btn1.SetTrigger(&trigA);
-    btn1.SetTrigger(&trigGCB);
+    btn1.SetTrigger(&trigGCY);
     btn1.SetState(STATE_SELECTED);
     btn1.SetEffectGrow();
 
@@ -94,7 +96,7 @@ const char *btn4Label)
     btn2.SetSoundClick(&btnClick);
     if(!btn3Label && !btn4Label)
     btn2.SetTrigger(&trigB);
-    btn2.SetTrigger(&trigGCY);
+    btn2.SetTrigger(&trigGCX);
     btn2.SetTrigger(&trigA);
     btn2.SetEffectGrow();
 
@@ -110,7 +112,7 @@ const char *btn4Label)
     if(!btn4Label)
     btn3.SetTrigger(&trigB);
     btn3.SetTrigger(&trigA);
-    btn3.SetTrigger(&trigGCA);
+    btn3.SetTrigger(&trigGCB);
     btn3.SetEffectGrow();
 
     GuiText btn4Txt(btn4Label, 22, (GXColor){0, 0, 0, 255});
@@ -125,8 +127,37 @@ const char *btn4Label)
     if(btn4Label)
     btn4.SetTrigger(&trigB);
     btn4.SetTrigger(&trigA);
-    btn4.SetTrigger(&trigGCX);
+    btn4.SetTrigger(&trigGCA);
     btn4.SetEffectGrow();
+	
+	
+	GuiImageData gcAData(gcA_png);
+	GuiImage gcAImg(&gcAData);
+	gcAImg.SetAlignment(0,5);
+	gcAImg.SetPosition(5,0);
+	
+	GuiImageData gcBData(gcB_png);
+	GuiImage gcBImg(&gcBData);
+	gcBImg.SetAlignment(0,5);
+	gcBImg.SetPosition(5,0);
+	
+	GuiImageData gcYData(gcY_png);
+	GuiImage gcYImg(&gcYData);
+	gcYImg.SetAlignment(0,5);
+	gcYImg.SetPosition(5,0);
+	
+	GuiImageData gcXData(gcX_png);
+	GuiImage gcXImg(&gcXData);
+	gcXImg.SetAlignment(0,5);
+	gcXImg.SetPosition(5,0);
+	
+	if (gcPresent)
+	{
+		btn1.SetIcon(&gcYImg);
+		btn2.SetIcon(&gcXImg);
+		btn3.SetIcon(&gcBImg);
+		btn4.SetIcon(&gcAImg);	
+	}
 
     if(btn2Label && !btn3Label && !btn4Label) {
     btn1.SetAlignment(ALIGN_LEFT, ALIGN_BOTTOM);
@@ -224,14 +255,14 @@ const char *btn4Label)
             choice = 0;
         }
     }
-
+	gprintf(" = %i",choice);
     promptWindow.SetEffect(EFFECT_SLIDE_TOP | EFFECT_SLIDE_OUT, 50);
     while(promptWindow.GetEffect() > 0) usleep(50);
     HaltGui();
     mainWindow->Remove(&promptWindow);
     mainWindow->SetState(STATE_DEFAULT);
     ResumeGui();
-	gprintf(" = %i",choice);
+	
     return choice;
 }
 int OnScreenKeyboard(char * var, u16 maxlen)
@@ -245,7 +276,11 @@ int OnScreenKeyboard(char * var, u16 maxlen)
 	GuiImageData btnOutlineOver(button_over_png);
 	GuiTrigger trigA;
 	trigA.SetSimpleTrigger(-1, WPAD_BUTTON_A | WPAD_CLASSIC_BUTTON_A, PAD_BUTTON_A);
-
+	GuiTrigger trigGCB;
+	trigGCB.SetButtonOnlyTrigger(-1, 0 | WPAD_CLASSIC_BUTTON_B, PAD_BUTTON_B);
+	GuiTrigger trigGCX;
+	trigGCX.SetButtonOnlyTrigger(-1, 0 | WPAD_CLASSIC_BUTTON_X, PAD_BUTTON_X);
+	
 	GuiText okBtnTxt("OK", 22, (GXColor){0, 0, 0, 255});
 	GuiImage okBtnImg(&btnOutline);
 	GuiImage okBtnImgOver(&btnOutlineOver);
@@ -259,6 +294,7 @@ int OnScreenKeyboard(char * var, u16 maxlen)
 	okBtn.SetImageOver(&okBtnImgOver);
 	okBtn.SetSoundOver(&btnSoundOver);
 	okBtn.SetTrigger(&trigA);
+	okBtn.SetTrigger(&trigGCB);
 	okBtn.SetEffectGrow();
 
 	GuiText cancelBtnTxt("Cancel", 22, (GXColor){0, 0, 0, 255});
@@ -272,7 +308,26 @@ int OnScreenKeyboard(char * var, u16 maxlen)
 	cancelBtn.SetImageOver(&cancelBtnImgOver);
 	cancelBtn.SetSoundOver(&btnSoundOver);
 	cancelBtn.SetTrigger(&trigA);
+	cancelBtn.SetTrigger(&trigGCX);
 	cancelBtn.SetEffectGrow();
+	
+	
+	
+	GuiImageData gcBData(gcB_png);
+	GuiImage gcBImg(&gcBData);
+	gcBImg.SetAlignment(0,5);
+	gcBImg.SetPosition(5,0);
+	
+	GuiImageData gcXData(gcX_png);
+	GuiImage gcXImg(&gcXData);
+	gcXImg.SetAlignment(0,5);
+	gcXImg.SetPosition(5,0);
+	
+	if (checkGC()>0)
+	{
+		okBtn.SetIcon(&gcBImg);
+		cancelBtn.SetIcon(&gcXImg);
+	}
 
 	keyboard.Append(&okBtn);
 	keyboard.Append(&cancelBtn);
