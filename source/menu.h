@@ -20,6 +20,7 @@
 void InitThreads();
 void ExitGUIThreads();
 void MainMenu (int menuitem);
+int checkGC();
 
 enum
 {

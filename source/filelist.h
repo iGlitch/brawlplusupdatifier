@@ -149,6 +149,18 @@ extern const u32	player3_point_png_size;
 extern const u8		player4_point_png[];
 extern const u32	player4_point_png_size;
 
+extern const u8		gcA_png[];
+extern const u32	gcA_png_size;
+
+extern const u8		gcB_png[];
+extern const u32	gcB_png_size;
+
+extern const u8		gcX_png[];
+extern const u32	gcX_png_size;
+
+extern const u8		gcY_png[];
+extern const u32	gcY_png_size;
+
 extern const u8		SSBB_button_click_ogg[];
 extern const u32	SSBB_button_click_ogg_size;
 
