@@ -635,7 +635,23 @@ bool cfg_save(bool m, bool usb) {
 	bool uussbb = usb;
 	bool mm = m;
 gprintf("\ncfg_save(%d, %d)",mm,uussbb);
-    char Global_cfg[26];
+
+
+	char * sig = (char *)0x8000180C;
+	sig[0] = 'G';
+	sig[1] = 'P';//these 2 bytes should be blank usually.  mark them as GP so the next program knows i left them there for it
+	
+	
+	if (!mm)sig[2]=0x01;
+	else sig[2]=0x02;
+	
+	if (uussbb)sig[2]=0x03;
+	
+	gprintf("\nsettings saved\n");
+	
+	return true;
+	
+    /*char Global_cfg[26];
     FILE *f;
     sprintf(Global_cfg, "sd:/geckoBootInstructions.cfg");
     f = fopen(Global_cfg, "w");
@@ -650,16 +666,16 @@ gprintf("\ncfg_save(%d, %d)",mm,uussbb);
     fprintf(f, "%s\n",(mm?"IOS222":"IOS36"));
     fprintf(f, "%s\n",(uussbb?"bootfromUSB":" "));
     fclose(f);
-	gprintf("\nsettings saved");
-	gprintf("\nwrote \"%s\"\n",(mm?"IOS222":"IOS36"));
-    gprintf("\nwrote \"%s\"\n",(uussbb?"bootfromUSB":" "));
+	gprintf("\nsettings saved\n");
+	gprintf("wrote \"%s\"\n",(mm?"IOS222":"IOS36"));
+    gprintf("wrote \"%s\"\n",(uussbb?"bootfromUSB":" "));
     
-	return true;
+	return true;*/
 }
 
 static int MenuUpdate()
 {
-	WindowPrompt("test","test","1","2","3","4");
+//	WindowPrompt("test","test","1","2","3","4");
 //	bool btn=false;
 	int pro=100, i=30, hashfails=0;
 	
